@@ -31,7 +31,7 @@ void
 Element::setType(ElementType type)
 {
     _type = type;
-    if (type == SAND) _color = (Color){ 255, 255, 255, 255 };
+    if (type == SAND) _color = (Color){ 194, 178, 128, 255 };
     if (type == EMPTY) _color = (Color){ 0, 0, 0, 0 };
 }
 

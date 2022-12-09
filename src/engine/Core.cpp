@@ -12,7 +12,7 @@ Core::Core(const int screenWidth, const int screenHeight, const int fps)
     std::srand(time(0));
     _w = std::make_shared<Window>(screenWidth, screenHeight);
     SetTargetFPS(fps);
-    _backgroundColor = (Color){ 76, 63, 47, 255 };
+    _backgroundColor = (Color){ 56, 43, 27, 255 };
     _screenWidth = screenWidth;
     _screenHeight = screenHeight;
     _isSPacePressed = false;
