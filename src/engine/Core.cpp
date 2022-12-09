@@ -21,7 +21,7 @@ Core::Core(const int screenWidth, const int screenHeight, const int fps)
         std::vector<std::shared_ptr<Element>> e;
         _2DArray.push_back(e);
         for (int j = 0; j < screenWidth; j += 5) {
-            _2DArray[index].push_back(std::make_shared<Element>((Vector2){(float)j, (float)i}, (Color){ 0, 0, 0, 0 }, _screenWidth, _screenHeight));
+            _2DArray[index].push_back(std::make_shared<Element>((Vector2){ (float)j, (float)i }, (Color){ 0, 0, 0, 0 }, _screenWidth, _screenHeight));
         }
     }
 }
@@ -44,7 +44,6 @@ Core::gameUpdate()
                 }
             }
         }
-
     }
 
     for (int y = _2DArray.size() - 2; y > 0; y--) {
@@ -54,8 +53,7 @@ Core::gameUpdate()
                 if (_2DArray[y + 1][x]->getType() == EMPTY) {
                     _2DArray[y + 1][x]->setType(SAND);
                     _2DArray[y][x]->setType(EMPTY);
-                }
-                else if (_2DArray[y + 1][x + direction]->getType() == EMPTY) {
+                } else if (_2DArray[y + 1][x + direction]->getType() == EMPTY) {
                     _2DArray[y + 1][x + direction]->setType(SAND);
                     _2DArray[y][x]->setType(EMPTY);
                 }
