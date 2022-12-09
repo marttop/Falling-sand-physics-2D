@@ -2,7 +2,7 @@
 
 This is a basic sand falling mechanic replication algorithm made in raylib (C++) on Mac.
 
-# Build and Install (MacOs)
+## Build and Install (MacOs)
 
 ```bash
 brew install raylib
