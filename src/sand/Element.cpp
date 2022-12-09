@@ -28,33 +28,6 @@ Element::draw()
 }
 
 void
-Element::fall()
-{
-    if (_type == SAND) {
-        if (_pos.y < _screenHeight - _size)
-            _pos.y += _size;
-        else
-            _pos.y = _screenHeight;
-    }
-}
-
-void
-Element::fallLeft()
-{
-    fall();
-    if (_pos.x > 0)
-        _pos.x -= _size;
-}
-
-void
-Element::fallRight()
-{
-    fall();
-    if (_pos.x < _screenWidth)
-        _pos.x += _size;
-}
-
-void
 Element::setType(ElementType type)
 {
     _type = type;

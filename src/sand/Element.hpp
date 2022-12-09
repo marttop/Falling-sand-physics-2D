@@ -24,15 +24,9 @@ class Element {
         ~Element();
 
         void draw();
-        void fall();
-        void fallLeft();
-        void fallRight();
-
         void setType(ElementType type);
-
         bool isMouseOn(Vector2 pos) const;
         bool isColliding(std::shared_ptr<Element> element) const;
-
         Vector2 getPos() const;
         ElementType getType() const;
 
