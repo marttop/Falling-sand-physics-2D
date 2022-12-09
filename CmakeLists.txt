@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.16)
+project(sand-simulator-2D)
+
+
+find_package(raylib 4.0.0 REQUIRED) # Requires at least version 3.0
+
+set(CMAKE_C_STANDARD 11) # Requires C11 standard
+
+add_executable(${PROJECT_NAME} src/main.cpp)
+set(CMAKE_CXX_STANDARD 17)
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+
+target_sources(${PROJECT_NAME} PRIVATE "src/engine/Core.cpp"
+                                        "src/engine/Window.cpp"
+                                        "src/sand/Element.cpp")
+
+target_include_directories(${PROJECT_NAME} PRIVATE "src/" "src/engine" "src/sand")
+
+target_link_libraries(${PROJECT_NAME} raylib)
+
+# Checks if OSX and links appropriate frameworks (only required on MacOS)
+if (APPLE)
+    target_link_libraries(${PROJECT_NAME} "-framework IOKit")
+    target_link_libraries(${PROJECT_NAME} "-framework Cocoa")
+    target_link_libraries(${PROJECT_NAME} "-framework OpenGL")
+endif()
