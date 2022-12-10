@@ -38,15 +38,19 @@ class Core
     void gameDraw();
     void keyEvents();
 
+    void usePencil();
+
     Color _backgroundColor;
 
     std::shared_ptr<Window> _w;
     std::shared_ptr<Pencil> _pencil;
-    std::shared_ptr<Panel> _panel;
+    std::shared_ptr<Panel> _controlPanel;
+    std::shared_ptr<Panel> _infoPanel;
     std::vector<std::vector<std::shared_ptr<Element>>> _2DArray;
     int _screenWidth;
     int _screenHeight;
     bool _isSPacePressed;
+    int _counter;
 };
 
 #endif /* !CORE_HPP_ */

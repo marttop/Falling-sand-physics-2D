@@ -7,7 +7,7 @@
 
 #include "Pencil.hpp"
 
-Pencil::Pencil(int radius, Color color) : _radius(radius), _color(color)
+Pencil::Pencil(int radius, Color color) : _radius(radius), _color(color), _mode(SAND_MODE)
 {
 }
 
@@ -20,9 +20,24 @@ void Pencil::setRadius(int radius)
     _radius = radius;
 }
 
+void Pencil::setMode(Mode mode)
+{
+    _mode = mode;
+}
+
+void Pencil::setColor(Color color)
+{
+    _color = color;
+}
+
 int Pencil::getRadius() const
 {
     return _radius;
+}
+
+Mode Pencil::getMode() const
+{
+    return _mode;
 }
 
 Vector2 Pencil::getPos() const

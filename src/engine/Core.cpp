@@ -12,19 +12,29 @@ Core::Core(const int screenWidth, const int screenHeight, const int fps)
     std::srand(time(0));
     _w = std::make_shared<Window>(screenWidth, screenHeight);
     SetTargetFPS(fps);
-    _backgroundColor = (Color){56, 43, 27, 255};
+    _backgroundColor = (Color){25, 25, 25, 255};
     _screenWidth = screenWidth;
     _screenHeight = screenHeight;
     _isSPacePressed = false;
     DisableCursor();
+    _counter = 0;
 
-    int particleSize = 8;
+    int particleSize = 5;
     int pencilSize = 40;
 
-    _panel = std::make_shared<Panel>(_screenWidth, _screenHeight, 300, 190, BOTTOM_RIGHT, SKYBLUE, 10);
-    _panel->addText("Hello I'm gay", "gay", BLACK, 20);
-    _panel->addText("Hello I'm gay", "gay2", BLACK, 20);
+    _controlPanel = std::make_shared<Panel>(_screenWidth, _screenHeight, 400, 230, TOP_LEFT, SKYBLUE, 10);
+    _infoPanel = std::make_shared<Panel>(_screenWidth, _screenHeight, 400, 230, TOP_RIGHT, SKYBLUE, 10);
+
+    _controlPanel->addText("Sand Simulator 2D commands :", "title", BLACK, 20);
+    _controlPanel->addText("- O/P to change size of the pencil", "subtitle1", BLACK, 15);
+    _controlPanel->addText("- SPACE to add use the pencil", "subtitle2", BLACK, 15);
+    _controlPanel->addText("- L_SHIFT to toggle pencil functions", "subtitle3", BLACK, 15);
+
+    _infoPanel->addText("Game informations", "title", BLACK, 20);
+    _infoPanel->addText("Total grains of sand : 0", "subtitle1", BLACK, 15);
+
     _pencil = std::make_shared<Pencil>(pencilSize, (Color){166, 145, 80, 255});
+
     for (int i = 0, index = 0; i < screenHeight; i += particleSize, index++) {
         std::vector<std::shared_ptr<Element>> e;
         _2DArray.push_back(e);
@@ -42,17 +52,6 @@ void Core::gameUpdate()
 {
     _pencil->update();
 
-    if (_isSPacePressed) {
-        for (auto rows : _2DArray) {
-            for (auto e : rows) {
-
-                if (e->isCollidingWithCircle(_pencil->getRadius(), _pencil->getPos()) && e->getType() == EMPTY) {
-                    e->setType(SAND);
-                }
-            }
-        }
-    }
-
     for (int y = _2DArray.size() - 2; y > 0; y--) {
         for (int x = _2DArray[y].size() - 2; x > 0; x--) {
             if (_2DArray[y][x]->getType() == SAND) {
@@ -67,6 +66,13 @@ void Core::gameUpdate()
             }
         }
     }
+    _counter = 0;
+    for (auto i : _2DArray) {
+        for (auto j : i) {
+            if (j->getType() == SAND) _counter++;
+        }
+    }
+    _infoPanel->updateText(1, "Total grains of sand : " + std::to_string(_counter));
 }
 
 void Core::gameDraw()
@@ -84,7 +90,8 @@ void Core::gameDraw()
     }
 
     _pencil->draw();
-    _panel->draw();
+    _controlPanel->draw();
+    _infoPanel->draw();
 
     //----------------------------------------------------------------------------------
     EndDrawing();
@@ -92,15 +99,32 @@ void Core::gameDraw()
 
 void Core::keyEvents()
 {
-    if (IsKeyPressed(KEY_SPACE) && !_isSPacePressed) {
-        _isSPacePressed = true;
-    } else if (IsKeyPressed(KEY_SPACE) && _isSPacePressed) {
-        _isSPacePressed = false;
+    if (IsKeyDown(KEY_SPACE)) {
+        usePencil();
     }
     if (IsKeyDown(KEY_O)) {
         _pencil->setRadius(_pencil->getRadius() - 1);
     } else if (IsKeyDown(KEY_P)) {
         _pencil->setRadius(_pencil->getRadius() + 1);
+    }
+
+    if (IsKeyPressed(KEY_RIGHT_SHIFT) && _pencil->getMode() == ERASE_MODE) {
+        _pencil->setMode(SAND_MODE);
+        _pencil->setColor((Color){166, 145, 80, 255});
+    } else if (IsKeyPressed(KEY_RIGHT_SHIFT) && _pencil->getMode() == SAND_MODE) {
+        _pencil->setMode(ERASE_MODE);
+        _pencil->setColor(RED);
+    }
+}
+
+void Core::usePencil()
+{
+    for (auto rows : _2DArray) {
+        for (auto e : rows) {
+            if (e->isCollidingWithCircle(_pencil->getRadius(), _pencil->getPos())) {
+                e->setType(_pencil->getMode() == SAND_MODE ? SAND : EMPTY);
+            }
+        }
     }
 }
 

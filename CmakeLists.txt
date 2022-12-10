@@ -16,7 +16,7 @@ target_sources(${PROJECT_NAME} PRIVATE "src/engine/Core.cpp"
                                         "src/pencil/Pencil.cpp"
                                         "src/panel/Panel.cpp")
 
-target_include_directories(${PROJECT_NAME} PRIVATE "src/" "src/engine" "src/sand" "src/pencil/" "src/panel/")
+target_include_directories(${PROJECT_NAME} PRIVATE "src/" "src/engine" "src/sand" "src/pencil/" "src/panel/" "src/interface/")
 
 target_link_libraries(${PROJECT_NAME} raylib)
 

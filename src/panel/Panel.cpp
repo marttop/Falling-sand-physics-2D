@@ -34,13 +34,20 @@ void Panel::draw()
         textY = _screenHeight - _height - _padding + 10;
     }
 
+    bool isTitle = true;
     for (auto text : _texts) {
-        DrawText(std::get<0>(text.second).c_str(), textX, textY, std::get<2>(text.second), std::get<1>(text.second));
-        textY += 10 + std::get<2>(text.second);
+        DrawText(std::get<0>(text).c_str(), textX, textY, std::get<2>(text), std::get<1>(text));
+        textY += 10 + std::get<2>(text);
+        if (isTitle) textX += 20, isTitle = false;
     }
 }
 
 void Panel::addText(const std::string &text, const std::string &textID, Color color, int fontSize)
 {
-    _texts.insert({textID, std::make_tuple(text, color, fontSize)});
+    _texts.push_back({std::make_tuple(text, color, fontSize)});
+}
+
+void Panel::updateText(int index, const std::string &text)
+{
+    std::get<0>(_texts[index]) = text;
 }

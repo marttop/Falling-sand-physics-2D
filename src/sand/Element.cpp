@@ -18,7 +18,8 @@ Element::~Element()
 
 void Element::draw()
 {
-    DrawRectangle(_pos.x, _pos.y, _size, _size, _color);
+    if (_type != EMPTY)
+        DrawRectangle(_pos.x, _pos.y, _size, _size, _color);
 }
 
 void Element::setType(ElementType type)

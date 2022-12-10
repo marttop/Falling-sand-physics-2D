@@ -9,7 +9,7 @@
 #define PANEL_HPP_
 
 #include "raylib.h"
-#include <map>
+#include <vector>
 #include <string>
 
 enum Position {
@@ -26,6 +26,7 @@ class Panel {
 
         void draw();
         void addText(const std::string &text, const std::string &textID, Color color, int fontSize);
+        void updateText(int index, const std::string &text);
 
     protected:
     private:
@@ -36,7 +37,7 @@ class Panel {
         int _padding;
         Position _position;
         Color _color;
-        std::map<std::string, std::tuple<std::string, Color, int>> _texts;
+        std::vector<std::tuple<std::string, Color, int>> _texts;
 };
 
 #endif /* !PANEL_HPP_ */
