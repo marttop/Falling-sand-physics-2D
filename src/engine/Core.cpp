@@ -19,7 +19,7 @@ Core::Core(const int screenWidth, const int screenHeight, const int fps)
     DisableCursor();
     _counter = 0;
 
-    int particleSize = 5;
+    int particleSize = 8;
     int pencilSize = 40;
 
     _controlPanel = std::make_shared<Panel>(_screenWidth, _screenHeight, 400, 230, TOP_LEFT, SKYBLUE, 10);
@@ -54,14 +54,33 @@ void Core::gameUpdate()
 
     for (int y = _2DArray.size() - 2; y > 0; y--) {
         for (int x = _2DArray[y].size() - 2; x > 0; x--) {
-            if (_2DArray[y][x]->getType() == SAND) {
+            auto particle = _2DArray[y][x];
+            if (particle->getType() == SAND) {
                 int direction = std::rand() % 2 == 0 ? 1 : -1;
                 if (_2DArray[y + 1][x]->getType() == EMPTY) {
                     _2DArray[y + 1][x]->setType(SAND);
-                    _2DArray[y][x]->setType(EMPTY);
+                    particle->setType(EMPTY);
                 } else if (_2DArray[y + 1][x + direction]->getType() == EMPTY) {
                     _2DArray[y + 1][x + direction]->setType(SAND);
-                    _2DArray[y][x]->setType(EMPTY);
+                    particle->setType(EMPTY);
+                }
+            }
+            else if (particle->getType() == WATER) {
+                if (_2DArray[y + 1][x]->getType() == EMPTY) {
+                    _2DArray[y + 1][x]->setType(WATER);
+                    particle->setType(EMPTY);
+                } else if (_2DArray[y + 1][x - 1]->getType() == EMPTY) {
+                    _2DArray[y + 1][x - 1]->setType(WATER);
+                    particle->setType(EMPTY);
+                }  else if (_2DArray[y + 1][x + 1]->getType() == EMPTY) {
+                    _2DArray[y + 1][x + 1]->setType(WATER);
+                    particle->setType(EMPTY);
+                }  else if (_2DArray[y][x - 1]->getType() == EMPTY) {
+                    _2DArray[y][x - 1]->setType(WATER);
+                    particle->setType(EMPTY);
+                }  else if (_2DArray[y][x + 1]->getType() == EMPTY) {
+                    _2DArray[y][x + 1]->setType(WATER);
+                    particle->setType(EMPTY);
                 }
             }
         }
@@ -112,6 +131,9 @@ void Core::keyEvents()
         _pencil->setMode(SAND_MODE);
         _pencil->setColor((Color){166, 145, 80, 255});
     } else if (IsKeyPressed(KEY_RIGHT_SHIFT) && _pencil->getMode() == SAND_MODE) {
+        _pencil->setMode(WATER_MODE);
+        _pencil->setColor(BLUE);
+    } else if (IsKeyPressed(KEY_RIGHT_SHIFT) && _pencil->getMode() == WATER_MODE) {
         _pencil->setMode(ERASE_MODE);
         _pencil->setColor(RED);
     }
@@ -122,7 +144,12 @@ void Core::usePencil()
     for (auto rows : _2DArray) {
         for (auto e : rows) {
             if (e->isCollidingWithCircle(_pencil->getRadius(), _pencil->getPos())) {
-                e->setType(_pencil->getMode() == SAND_MODE ? SAND : EMPTY);
+                if (_pencil->getMode() == SAND_MODE)
+                    e->setType(SAND);
+                else if (_pencil->getMode() == WATER_MODE)
+                    e->setType(WATER);
+                else if (_pencil->getMode() == ERASE_MODE)
+                    e->setType(EMPTY);
             }
         }
     }

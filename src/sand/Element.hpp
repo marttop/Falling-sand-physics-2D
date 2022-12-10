@@ -15,6 +15,7 @@
 enum ElementType {
     EMPTY = 0,
     SAND,
+    WATER,
     WALL
 };
 
@@ -31,6 +32,7 @@ class Element
     bool isCollidingWithCircle(int radius, Vector2 pos) const;
     Vector2 getPos() const;
     ElementType getType() const;
+    int getVelocity() const;
 
    protected:
    private:
@@ -40,6 +42,7 @@ class Element
     ElementType _type;
     int _screenWidth;
     int _screenHeight;
+    int _velocity;
 };
 
 #endif /* !SAND_HPP_ */

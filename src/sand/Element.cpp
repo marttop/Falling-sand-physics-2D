@@ -10,6 +10,7 @@
 Element::Element(Vector2 pos, Color color, int screenWidth, int screenHeight, int size, ElementType type)
     : _pos(pos), _color(color), _screenWidth(screenWidth), _screenHeight(screenHeight), _size(size), _type(type)
 {
+    _velocity = 3;
 }
 
 Element::~Element()
@@ -33,8 +34,10 @@ void Element::setType(ElementType type)
             _color = (Color){194, 178, 128, 255};
         else
             _color = (Color){166, 145, 80, 255};
-    }
-    if (type == EMPTY) _color = (Color){0, 0, 0, 0};
+    } else if (type == EMPTY)
+        _color = (Color){0, 0, 0, 0};
+    else if (type == WATER)
+        _color = Fade((Color){28, 163, 236, 255}, 0.5f);
 }
 
 bool Element::isMouseOn(Vector2 pos) const
@@ -63,4 +66,9 @@ ElementType
 Element::getType() const
 {
     return _type;
+}
+
+int Element::getVelocity() const
+{
+    return _velocity;
 }

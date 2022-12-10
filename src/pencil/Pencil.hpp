@@ -13,6 +13,7 @@
 enum Mode {
     SAND_MODE,
     ERASE_MODE,
+    WATER_MODE,
 };
 
 class Pencil {
