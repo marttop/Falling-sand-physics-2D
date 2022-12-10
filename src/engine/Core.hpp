@@ -10,6 +10,10 @@
 
 #include "Element.hpp"
 #include "Window.hpp"
+#include "Pencil.hpp"
+#include "Panel.hpp"
+
+
 #include <iostream>
 #include <random>
 #include <unordered_map>
@@ -37,6 +41,8 @@ class Core
     Color _backgroundColor;
 
     std::shared_ptr<Window> _w;
+    std::shared_ptr<Pencil> _pencil;
+    std::shared_ptr<Panel> _panel;
     std::vector<std::vector<std::shared_ptr<Element>>> _2DArray;
     int _screenWidth;
     int _screenHeight;

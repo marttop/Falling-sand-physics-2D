@@ -8,12 +8,11 @@
 #ifndef SAND_HPP_
 #define SAND_HPP_
 
-#include "raylib.h"
-
 #include <memory>
 
-enum ElementType
-{
+#include "raylib.h"
+
+enum ElementType {
     EMPTY = 0,
     SAND,
     WALL
@@ -21,19 +20,20 @@ enum ElementType
 
 class Element
 {
-  public:
+   public:
     Element(Vector2 pos, Color color, int screenWidth, int screenHeight, int size = 5, ElementType type = EMPTY);
     ~Element();
 
     void draw();
     void setType(ElementType type);
     bool isMouseOn(Vector2 pos) const;
-    bool isColliding(std::shared_ptr<Element> element) const;
+    bool isCollidingWithRectangle(std::shared_ptr<Element> element) const;
+    bool isCollidingWithCircle(int radius, Vector2 pos) const;
     Vector2 getPos() const;
     ElementType getType() const;
 
-  protected:
-  private:
+   protected:
+   private:
     Vector2 _pos;
     Color _color;
     int _size;

@@ -7,8 +7,8 @@ int main(void)
     // Initialization
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenWidth = 1720;
+    const int screenHeight = 900;
     Core core(screenWidth, screenHeight);
 
     // Game
